@@ -1,22 +1,584 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta charset="UTF-8">
+  <title>EM Marketing</title>
 
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0"
->
+  <style>
+    :root{
+      --creme:#f4efe6;
+      --kaki:#66644c;
+      --kaki-fonce:#454636;
+      --marron:#5d4738;
+      --marron-fonce:#28211c;
+      --dore:#c6a970;
+      --blanc:#ffffff;
+      --texte:#2d2925;
+    }
 
-<title>EM Marketing — Stratégie, émotion et création</title>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
 
-<meta
-name="description"
-content="EM Marketing transforme la psychologie humaine, le storytelling et la création visuelle en campagnes pensées pour attirer, convaincre et convertir."
->
+    html{
+      scroll-behavior:smooth;
+    }
 
-<style>
+    body{
+      font-family:Arial, Helvetica, sans-serif;
+      background:var(--creme);
+      color:var(--texte);
+    }
 
-/* =========================
+    a{
+      text-decoration:none;
+      color:inherit;
+    }
+
+    nav{
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      z-index:100;
+
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+
+      padding:18px 6%;
+
+      background:rgba(244,239,230,0.92);
+      border-bottom:1px solid rgba(0,0,0,0.08);
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      font-weight:bold;
+      letter-spacing:2px;
+    }
+
+    .brand img{
+      width:55px;
+      height:55px;
+      object-fit:contain;
+    }
+
+    .menu{
+      display:flex;
+      gap:28px;
+      align-items:center;
+      font-size:14px;
+    }
+
+    .contact-button{
+      padding:12px 20px;
+      border-radius:999px;
+      background:var(--kaki-fonce);
+      color:white;
+    }
+
+    .hero{
+      min-height:100vh;
+
+      display:grid;
+      grid-template-columns:1.1fr 0.9fr;
+      align-items:center;
+      gap:60px;
+
+      padding:130px 7% 80px;
+
+      background:
+        radial-gradient(circle at 80% 25%, rgba(198,169,112,0.22), transparent 30%),
+        linear-gradient(135deg, #faf7f1, #eee6da);
+    }
+
+    .eyebrow{
+      color:var(--kaki-fonce);
+      font-size:12px;
+      font-weight:bold;
+      letter-spacing:3px;
+      text-transform:uppercase;
+      margin-bottom:24px;
+    }
+
+    h1{
+      font-family:Georgia, "Times New Roman", serif;
+      font-size:clamp(50px,7vw,94px);
+      font-weight:500;
+      line-height:1;
+      letter-spacing:-4px;
+      color:var(--marron-fonce);
+      max-width:850px;
+    }
+
+    h1 span{
+      color:var(--kaki);
+      font-style:italic;
+    }
+
+    .hero-text{
+      margin-top:28px;
+      max-width:700px;
+      font-size:20px;
+      line-height:1.7;
+      color:#6d665f;
+    }
+
+    .hero-text strong{
+      color:var(--marron-fonce);
+    }
+
+    .buttons{
+      display:flex;
+      flex-wrap:wrap;
+      gap:14px;
+      margin-top:38px;
+    }
+
+    .button{
+      display:inline-block;
+      padding:16px 27px;
+      border-radius:999px;
+      font-weight:bold;
+      transition:0.3s;
+    }
+
+    .button-primary{
+      background:var(--kaki-fonce);
+      color:white;
+    }
+
+    .button-secondary{
+      border:1px solid rgba(0,0,0,0.16);
+      background:rgba(255,255,255,0.5);
+    }
+
+    .button:hover{
+      transform:translateY(-3px);
+    }
+
+    .signature{
+      margin-top:30px;
+      padding-left:16px;
+      border-left:2px solid var(--dore);
+      font-family:Georgia, "Times New Roman", serif;
+      font-style:italic;
+      color:var(--marron);
+    }
+
+    .logo-zone{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+    }
+
+    .logo-circle{
+      width:min(500px,90vw);
+      aspect-ratio:1/1;
+
+      display:flex;
+      justify-content:center;
+      align-items:center;
+
+      border-radius:50%;
+
+      background:linear-gradient(145deg, #55513c, #302920);
+
+      box-shadow:0 30px 80px rgba(40,33,28,0.25);
+    }
+
+    .logo-circle img{
+      width:80%;
+      height:80%;
+      object-fit:contain;
+    }
+
+    section{
+      padding:110px 7%;
+    }
+
+    .dark{
+      background:var(--marron-fonce);
+      color:white;
+    }
+
+    .section-label{
+      color:var(--dore);
+      text-transform:uppercase;
+      font-size:12px;
+      letter-spacing:3px;
+      font-weight:bold;
+      margin-bottom:22px;
+    }
+
+    .big-title{
+      font-family:Georgia, "Times New Roman", serif;
+      font-size:clamp(40px,5vw,72px);
+      font-weight:500;
+      line-height:1.08;
+      max-width:1050px;
+    }
+
+    .big-title span{
+      color:#e4c994;
+      font-style:italic;
+    }
+
+    .section-text{
+      margin-top:25px;
+      max-width:750px;
+      font-size:18px;
+      line-height:1.7;
+      color:#777069;
+    }
+
+    .dark .section-text{
+      color:rgba(255,255,255,0.72);
+    }
+
+    .cards{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:22px;
+      margin-top:55px;
+    }
+
+    .card{
+      background:white;
+      padding:35px;
+      border-radius:24px;
+      min-height:280px;
+      box-shadow:0 18px 50px rgba(0,0,0,0.07);
+    }
+
+    .card span{
+      color:var(--dore);
+      font-weight:bold;
+    }
+
+    .card h3{
+      font-family:Georgia, "Times New Roman", serif;
+      font-size:30px;
+      margin-top:55px;
+      color:var(--marron-fonce);
+    }
+
+    .card p{
+      margin-top:16px;
+      line-height:1.7;
+      color:#746d66;
+    }
+
+    .services{
+      background:var(--kaki-fonce);
+      color:white;
+    }
+
+    .services-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:20px;
+      margin-top:55px;
+    }
+
+    .service{
+      padding:35px;
+      min-height:280px;
+      border-radius:24px;
+      border:1px solid rgba(255,255,255,0.13);
+      background:rgba(255,255,255,0.05);
+    }
+
+    .service h3{
+      font-family:Georgia, "Times New Roman", serif;
+      font-size:34px;
+      margin-top:55px;
+    }
+
+    .service p{
+      margin-top:16px;
+      color:rgba(255,255,255,0.72);
+      line-height:1.7;
+    }
+
+    .contact{
+      text-align:center;
+      background:var(--marron);
+      color:white;
+    }
+
+    .contact .big-title{
+      margin:auto;
+    }
+
+    .contact-links{
+      display:flex;
+      justify-content:center;
+      flex-wrap:wrap;
+      gap:14px;
+      margin-top:38px;
+    }
+
+    .contact-links a{
+      padding:14px 22px;
+      border:1px solid rgba(255,255,255,0.25);
+      border-radius:999px;
+    }
+
+    footer{
+      display:flex;
+      justify-content:space-between;
+      gap:20px;
+      padding:30px 7%;
+      background:var(--marron-fonce);
+      color:rgba(255,255,255,0.58);
+      font-size:13px;
+    }
+
+    @media(max-width:900px){
+      .menu a:not(.contact-button){
+        display:none;
+      }
+
+      .hero{
+        grid-template-columns:1fr;
+        padding:120px 24px 70px;
+      }
+
+      .logo-zone{
+        margin-top:20px;
+      }
+
+      .cards,
+      .services-grid{
+        grid-template-columns:1fr;
+      }
+
+      section{
+        padding:85px 24px;
+      }
+
+      footer{
+        flex-direction:column;
+        text-align:center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <a href="#accueil" class="brand">
+      <img src="logo-em.png" alt="Logo EM Marketing">
+      <span>EM MARKETING</span>
+    </a>
+
+    <div class="menu">
+      <a href="#vision">Vision</a>
+      <a href="#services">Services</a>
+      <a href="#contact" class="contact-button">Me contacter</a>
+    </div>
+  </nav>
+
+  <main>
+
+    <section id="accueil" class="hero">
+
+      <div>
+        <p class="eyebrow">Psychologie · Stratégie · Création</p>
+
+        <h1>
+          Chaque détail influence une
+          <span>émotion.</span>
+        </h1>
+
+        <p class="hero-text">
+          Chaque couleur, chaque mouvement, chaque regard et chaque silence
+          influence la perception de votre marque.
+          <strong>
+            EM Marketing transforme ces émotions en décisions,
+            et ces décisions en clients.
+          </strong>
+        </p>
+
+        <div class="buttons">
+          <a class="button button-primary" href="#services">
+            Découvrir mon approche
+          </a>
+
+          <a class="button button-secondary" href="#contact">
+            Parler de votre projet
+          </a>
+        </div>
+
+        <p class="signature">
+          Rien n’est laissé au hasard. Parce que chaque détail compte.
+        </p>
+      </div>
+
+      <div class="logo-zone">
+        <div class="logo-circle">
+          <img src="logo-em.png" alt="EM Marketing">
+        </div>
+      </div>
+
+    </section>
+
+    <section id="vision" class="dark">
+
+      <p class="section-label">La psychologie avant l’esthétique</p>
+
+      <h2 class="big-title">
+        Avant d’acheter avec leur portefeuille,
+        vos clients achètent avec leurs
+        <span>émotions.</span>
+      </h2>
+
+      <p class="section-text">
+        Une belle image attire l’attention.
+        Mais c’est la sensation qu’elle provoque,
+        le message qu’elle transmet et la confiance qu’elle construit
+        qui donnent réellement envie d’agir.
+      </p>
+
+    </section>
+
+    <section>
+
+      <p class="section-label">Une création intentionnelle</p>
+
+      <h2 class="big-title">
+        L’esthétique attire. La stratégie transforme l’attention en action.
+      </h2>
+
+      <div class="cards">
+
+        <article class="card">
+          <span>01 · COMPRENDRE</span>
+          <h3>Comprendre avant de créer.</h3>
+          <p>
+            Votre marque, votre cible, ses besoins,
+            ses freins et les émotions qui influencent ses décisions.
+          </p>
+        </article>
+
+        <article class="card">
+          <span>02 · RESSENTIR</span>
+          <h3>Créer une réaction humaine.</h3>
+          <p>
+            Curiosité, confiance, désir, identification ou anticipation :
+            chaque émotion possède une fonction.
+          </p>
+        </article>
+
+        <article class="card">
+          <span>03 · CONVERTIR</span>
+          <h3>Transformer l’émotion en décision.</h3>
+          <p>
+            Une création efficace ne cherche pas seulement à être vue.
+            Elle donne envie d’aller plus loin.
+          </p>
+        </article>
+
+      </div>
+
+    </section>
+
+    <section id="services" class="services">
+
+      <p class="section-label">Mes expertises</p>
+
+      <h2 class="big-title">
+        De la première réflexion à la campagne finale.
+      </h2>
+
+      <div class="services-grid">
+
+        <article class="service">
+          <span>01</span>
+          <h3>Storytelling de marque</h3>
+          <p>
+            Big Idea, territoire émotionnel, manifeste,
+            positionnement et architecture du message.
+          </p>
+        </article>
+
+        <article class="service">
+          <span>02</span>
+          <h3>Vidéos publicitaires</h3>
+          <p>
+            Concept créatif, scénario, script, storyboard,
+            direction artistique, tournage partenaire et montage.
+          </p>
+        </article>
+
+        <article class="service">
+          <span>03</span>
+          <h3>Création de contenu</h3>
+          <p>
+            Reels, publications, stories et contenus adaptés
+            à votre identité et à vos objectifs.
+          </p>
+        </article>
+
+        <article class="service">
+          <span>04</span>
+          <h3>Stratégie digitale</h3>
+          <p>
+            Analyse de la cible, campagnes Meta,
+            optimisation et suivi des performances.
+          </p>
+        </article>
+
+      </div>
+
+    </section>
+
+    <section id="contact" class="contact">
+
+      <p class="section-label">Parlons de votre projet</p>
+
+      <h2 class="big-title">
+        Votre marque mérite plus qu’un joli contenu.
+        Elle mérite une <span>intention.</span>
+      </h2>
+
+      <div class="contact-links">
+
+        <a href="mailto:armandemma41@gmail.com">
+          armandemma41@gmail.com
+        </a>
+
+        <a href="tel:+33745055513">
+          07 45 05 55 13
+        </a>
+
+        <a
+          href="https://www.instagram.com/emmarketing13/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Instagram · EMMARKETING13
+        </a>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer>
+    <p>© 2026 EM Marketing</p>
+    <p>Psychologie · Storytelling · Création · Marketing digital</p>
+  </footer>
+
+</body>
+</html>
