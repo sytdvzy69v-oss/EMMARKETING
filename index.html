@@ -1,567 +1,1939 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>EM Marketing</title>
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>EM Marketing — Psychologie, stratégie et création</title>
+
+  <meta
+    name="description"
+    content="EM Marketing conçoit des campagnes, des contenus et des stratégies fondés sur la psychologie humaine pour attirer l'attention, provoquer une émotion et déclencher l'action."
+  >
 
   <style>
-    :root{
-      --creme:#f4efe6;
-      --kaki:#66644c;
-      --kaki-fonce:#454636;
-      --marron:#5d4738;
-      --marron-fonce:#28211c;
-      --dore:#c6a970;
-      --blanc:#ffffff;
-      --texte:#2d2925;
+
+    /* ==================================================
+       PALETTE EM MARKETING
+    ================================================== */
+
+    :root {
+      --cream: #f4efe5;
+      --cream-light: #fbf8f2;
+      --cream-dark: #e9e0d2;
+
+      --khaki: #77765d;
+      --khaki-light: #9b997d;
+      --khaki-dark: #444638;
+
+      --brown: #604c3e;
+      --brown-dark: #27211d;
+
+      --gold: #c4a56d;
+      --gold-light: #e1cca2;
+
+      --white: #ffffff;
+      --text: #302b26;
+      --muted: #756e66;
+
+      --border: rgba(48, 43, 38, 0.13);
+      --shadow: 0 30px 90px rgba(48, 40, 32, 0.12);
+
+      --serif: Georgia, "Times New Roman", serif;
+      --sans: Arial, Helvetica, sans-serif;
     }
 
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
+    /* ==================================================
+       BASE
+    ================================================== */
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
-    html{
-      scroll-behavior:smooth;
+    html {
+      scroll-behavior: smooth;
     }
 
-    body{
-      font-family:Arial, Helvetica, sans-serif;
-      background:var(--creme);
-      color:var(--texte);
+    body {
+      background: var(--cream-light);
+      color: var(--text);
+      font-family: var(--sans);
+      line-height: 1.6;
+      overflow-x: hidden;
     }
 
-    a{
-      text-decoration:none;
-      color:inherit;
+    body.loading {
+      overflow: hidden;
     }
 
-    nav{
-      position:fixed;
-      top:0;
-      left:0;
-      width:100%;
-      z-index:100;
-
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-
-      padding:18px 6%;
-
-      background:rgba(244,239,230,0.92);
-      border-bottom:1px solid rgba(0,0,0,0.08);
+    a {
+      color: inherit;
+      text-decoration: none;
     }
 
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      font-weight:bold;
-      letter-spacing:2px;
+    img {
+      display: block;
+      max-width: 100%;
     }
 
-    .brand img{
-      width:55px;
-      height:55px;
-      object-fit:contain;
+    button,
+    a {
+      -webkit-tap-highlight-color: transparent;
     }
 
-    .menu{
-      display:flex;
-      gap:28px;
-      align-items:center;
-      font-size:14px;
+    ::selection {
+      background: var(--khaki);
+      color: var(--white);
     }
 
-    .contact-button{
-      padding:12px 20px;
-      border-radius:999px;
-      background:var(--kaki-fonce);
-      color:white;
+    /* ==================================================
+       ÉCRAN D’OUVERTURE
+    ================================================== */
+
+    .intro {
+      position: fixed;
+      inset: 0;
+      z-index: 5000;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: var(--brown-dark);
+      color: var(--white);
+
+      transition:
+        opacity 0.8s ease,
+        visibility 0.8s ease;
     }
 
-    .hero{
-      min-height:100vh;
+    .intro.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
 
-      display:grid;
-      grid-template-columns:1.1fr 0.9fr;
-      align-items:center;
-      gap:60px;
+    .intro-content {
+      text-align: center;
+      animation: introAppear 1s ease both;
+    }
 
-      padding:130px 7% 80px;
+    .intro-logo {
+      width: 170px;
+      height: 170px;
+      margin: 0 auto 28px;
+      object-fit: contain;
+    }
+
+    .intro-title {
+      font-family: var(--serif);
+      font-size: clamp(30px, 5vw, 60px);
+      font-weight: 400;
+      letter-spacing: -1px;
+    }
+
+    .intro-line {
+      width: 0;
+      height: 1px;
+      margin: 25px auto 0;
+
+      background: var(--gold);
+
+      animation: drawLine 1.2s 0.35s ease forwards;
+    }
+
+    .intro-caption {
+      margin-top: 18px;
+
+      color: rgba(255, 255, 255, 0.62);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+
+    @keyframes introAppear {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes drawLine {
+      to {
+        width: 120px;
+      }
+    }
+
+    /* ==================================================
+       NAVIGATION
+    ================================================== */
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+
+      width: 100%;
+      height: 82px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      padding: 0 6%;
+
+      background: rgba(251, 248, 242, 0.82);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+
+      border-bottom: 1px solid transparent;
+
+      transition:
+        height 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+    }
+
+    .navbar.scrolled {
+      height: 68px;
+      border-color: var(--border);
+      box-shadow: 0 8px 35px rgba(48, 40, 32, 0.06);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+    }
+
+    .brand img {
+      width: 54px;
+      height: 54px;
+      object-fit: contain;
+    }
+
+    .brand-name {
+      color: var(--brown-dark);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 3px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 31px;
+
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .nav-links > a:not(.nav-cta) {
+      position: relative;
+    }
+
+    .nav-links > a:not(.nav-cta)::after {
+      content: "";
+
+      position: absolute;
+      left: 0;
+      bottom: -7px;
+
+      width: 0;
+      height: 1px;
+
+      background: var(--gold);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links > a:not(.nav-cta):hover::after {
+      width: 100%;
+    }
+
+    .nav-cta {
+      padding: 12px 20px;
+
+      border: 1px solid var(--khaki-dark);
+      border-radius: 999px;
+
+      transition: 0.3s ease;
+    }
+
+    .nav-cta:hover {
+      background: var(--khaki-dark);
+      color: var(--white);
+    }
+
+    .menu-toggle {
+      display: none;
+
+      width: 42px;
+      height: 42px;
+
+      border: 1px solid var(--border);
+      border-radius: 50%;
+
+      background: transparent;
+      color: var(--text);
+
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    /* ==================================================
+       ÉLÉMENTS GÉNÉRAUX
+    ================================================== */
+
+    section {
+      position: relative;
+      padding: 125px 7%;
+    }
+
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      margin-bottom: 24px;
+
+      color: var(--khaki-dark);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .section-label::before {
+      content: "";
+
+      width: 40px;
+      height: 1px;
+
+      background: var(--gold);
+    }
+
+    .section-title {
+      max-width: 950px;
+
+      font-family: var(--serif);
+      font-size: clamp(42px, 5.5vw, 76px);
+      font-weight: 400;
+      line-height: 1.04;
+      letter-spacing: -3px;
+
+      color: var(--brown-dark);
+    }
+
+    .section-description {
+      max-width: 720px;
+      margin-top: 26px;
+
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.8;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+
+      padding: 16px 29px;
+
+      border-radius: 999px;
+
+      font-size: 14px;
+      font-weight: 800;
+
+      transition:
+        transform 0.3s ease,
+        background 0.3s ease,
+        color 0.3s ease,
+        border-color 0.3s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-4px);
+    }
+
+    .button-primary {
+      background: var(--khaki-dark);
+      color: var(--white);
+
+      box-shadow: 0 15px 38px rgba(68, 70, 56, 0.22);
+    }
+
+    .button-primary:hover {
+      background: var(--brown-dark);
+    }
+
+    .button-secondary {
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.45);
+      color: var(--brown-dark);
+    }
+
+    .button-secondary:hover {
+      border-color: var(--gold);
+    }
+
+    /* ==================================================
+       ACCUEIL
+    ================================================== */
+
+    .hero {
+      min-height: 100vh;
+
+      display: grid;
+      grid-template-columns: 1.12fr 0.88fr;
+      align-items: center;
+      gap: 80px;
+
+      padding-top: 145px;
 
       background:
-        radial-gradient(circle at 80% 25%, rgba(198,169,112,0.22), transparent 30%),
-        linear-gradient(135deg, #faf7f1, #eee6da);
+        radial-gradient(
+          circle at 82% 30%,
+          rgba(196, 165, 109, 0.22),
+          transparent 33%
+        ),
+        linear-gradient(
+          135deg,
+          var(--cream-light),
+          var(--cream)
+        );
     }
 
-    .eyebrow{
-      color:var(--kaki-fonce);
-      font-size:12px;
-      font-weight:bold;
-      letter-spacing:3px;
-      text-transform:uppercase;
-      margin-bottom:24px;
+    .hero::before {
+      content: "";
+
+      position: absolute;
+      top: 15%;
+      right: -190px;
+
+      width: 560px;
+      height: 560px;
+
+      border: 1px solid rgba(196, 165, 109, 0.19);
+      border-radius: 50%;
+
+      pointer-events: none;
     }
 
-    h1{
-      font-family:Georgia, "Times New Roman", serif;
-      font-size:clamp(50px,7vw,94px);
-      font-weight:500;
-      line-height:1;
-      letter-spacing:-4px;
-      color:var(--marron-fonce);
-      max-width:850px;
+    .hero-content {
+      position: relative;
+      z-index: 2;
     }
 
-    h1 span{
-      color:var(--kaki);
-      font-style:italic;
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+
+      margin-bottom: 26px;
+
+      color: var(--khaki-dark);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
     }
 
-    .hero-text{
-      margin-top:28px;
-      max-width:700px;
-      font-size:20px;
-      line-height:1.7;
-      color:#6d665f;
+    .hero-tag::before {
+      content: "";
+
+      width: 42px;
+      height: 1px;
+
+      background: var(--gold);
     }
 
-    .hero-text strong{
-      color:var(--marron-fonce);
+    .hero h1 {
+      max-width: 920px;
+
+      font-family: var(--serif);
+      font-size: clamp(54px, 7vw, 102px);
+      font-weight: 400;
+      line-height: 0.94;
+      letter-spacing: -5px;
+
+      color: var(--brown-dark);
     }
 
-    .buttons{
-      display:flex;
-      flex-wrap:wrap;
-      gap:14px;
-      margin-top:38px;
+    .hero h1 span {
+      color: var(--khaki);
+      font-style: italic;
     }
 
-    .button{
-      display:inline-block;
-      padding:16px 27px;
-      border-radius:999px;
-      font-weight:bold;
-      transition:0.3s;
+    .hero-copy {
+      max-width: 720px;
+      margin-top: 31px;
+
+      color: var(--muted);
+      font-size: 19px;
+      line-height: 1.8;
     }
 
-    .button-primary{
-      background:var(--kaki-fonce);
-      color:white;
+    .hero-copy strong {
+      color: var(--brown-dark);
     }
 
-    .button-secondary{
-      border:1px solid rgba(0,0,0,0.16);
-      background:rgba(255,255,255,0.5);
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+
+      margin-top: 40px;
     }
 
-    .button:hover{
-      transform:translateY(-3px);
+    .hero-signature {
+      max-width: 580px;
+      margin-top: 34px;
+      padding-left: 18px;
+
+      border-left: 1px solid var(--gold);
+
+      color: var(--brown);
+      font-family: var(--serif);
+      font-size: 17px;
+      font-style: italic;
     }
 
-    .signature{
-      margin-top:30px;
-      padding-left:16px;
-      border-left:2px solid var(--dore);
-      font-family:Georgia, "Times New Roman", serif;
-      font-style:italic;
-      color:var(--marron);
+    /* ==================================================
+       VISUEL DU LOGO
+    ================================================== */
+
+    .hero-visual {
+      position: relative;
+      z-index: 2;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .logo-zone{
-      display:flex;
-      justify-content:center;
-      align-items:center;
+    .logo-orbit {
+      position: relative;
+
+      width: min(520px, 40vw);
+      aspect-ratio: 1 / 1;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 50%;
+
+      background:
+        radial-gradient(
+          circle at 35% 28%,
+          rgba(255, 255, 255, 0.1),
+          transparent 26%
+        ),
+        linear-gradient(
+          145deg,
+          #565541,
+          #2d2721
+        );
+
+      box-shadow:
+        0 45px 100px rgba(45, 38, 31, 0.27),
+        inset 0 0 0 1px rgba(225, 204, 162, 0.12);
+
+      animation: floatLogo 5s ease-in-out infinite;
     }
 
-    .logo-circle{
-      width:min(500px,90vw);
-      aspect-ratio:1/1;
+    .logo-orbit::before,
+    .logo-orbit::after {
+      content: "";
 
-      display:flex;
-      justify-content:center;
-      align-items:center;
-
-      border-radius:50%;
-
-      background:linear-gradient(145deg, #55513c, #302920);
-
-      box-shadow:0 30px 80px rgba(40,33,28,0.25);
+      position: absolute;
+      border-radius: 50%;
     }
 
-    .logo-circle img{
-      width:80%;
-      height:80%;
-      object-fit:contain;
+    .logo-orbit::before {
+      inset: 24px;
+      border: 1px solid rgba(225, 204, 162, 0.19);
     }
 
-    section{
-      padding:110px 7%;
+    .logo-orbit::after {
+      inset: -24px;
+      border: 1px solid rgba(96, 76, 62, 0.12);
     }
 
-    .dark{
-      background:var(--marron-fonce);
-      color:white;
+    .logo-orbit img {
+      position: relative;
+      z-index: 2;
+
+      width: 80%;
+      height: 80%;
+      object-fit: contain;
     }
 
-    .section-label{
-      color:var(--dore);
-      text-transform:uppercase;
-      font-size:12px;
-      letter-spacing:3px;
-      font-weight:bold;
-      margin-bottom:22px;
+    .orbit-dot {
+      position: absolute;
+      top: 6%;
+      right: 18%;
+
+      width: 11px;
+      height: 11px;
+
+      border-radius: 50%;
+      background: var(--gold);
+
+      box-shadow: 0 0 25px rgba(196, 165, 109, 0.75);
     }
 
-    .big-title{
-      font-family:Georgia, "Times New Roman", serif;
-      font-size:clamp(40px,5vw,72px);
-      font-weight:500;
-      line-height:1.08;
-      max-width:1050px;
+    .hero-card {
+      position: absolute;
+      right: -20px;
+      bottom: 55px;
+
+      width: 210px;
+      padding: 21px;
+
+      border: 1px solid rgba(196, 165, 109, 0.34);
+      border-radius: 20px;
+
+      background: rgba(251, 248, 242, 0.93);
+      backdrop-filter: blur(12px);
+
+      box-shadow: var(--shadow);
     }
 
-    .big-title span{
-      color:#e4c994;
-      font-style:italic;
+    .hero-card strong {
+      display: block;
+      margin-bottom: 8px;
+
+      color: var(--khaki-dark);
+      font-size: 13px;
     }
 
-    .section-text{
-      margin-top:25px;
-      max-width:750px;
-      font-size:18px;
-      line-height:1.7;
-      color:#777069;
+    .hero-card p {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
     }
 
-    .dark .section-text{
-      color:rgba(255,255,255,0.72);
-    }
-
-    .cards{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:22px;
-      margin-top:55px;
-    }
-
-    .card{
-      background:white;
-      padding:35px;
-      border-radius:24px;
-      min-height:280px;
-      box-shadow:0 18px 50px rgba(0,0,0,0.07);
-    }
-
-    .card span{
-      color:var(--dore);
-      font-weight:bold;
-    }
-
-    .card h3{
-      font-family:Georgia, "Times New Roman", serif;
-      font-size:30px;
-      margin-top:55px;
-      color:var(--marron-fonce);
-    }
-
-    .card p{
-      margin-top:16px;
-      line-height:1.7;
-      color:#746d66;
-    }
-
-    .services{
-      background:var(--kaki-fonce);
-      color:white;
-    }
-
-    .services-grid{
-      display:grid;
-      grid-template-columns:repeat(2,1fr);
-      gap:20px;
-      margin-top:55px;
-    }
-
-    .service{
-      padding:35px;
-      min-height:280px;
-      border-radius:24px;
-      border:1px solid rgba(255,255,255,0.13);
-      background:rgba(255,255,255,0.05);
-    }
-
-    .service h3{
-      font-family:Georgia, "Times New Roman", serif;
-      font-size:34px;
-      margin-top:55px;
-    }
-
-    .service p{
-      margin-top:16px;
-      color:rgba(255,255,255,0.72);
-      line-height:1.7;
-    }
-
-    .contact{
-      text-align:center;
-      background:var(--marron);
-      color:white;
-    }
-
-    .contact .big-title{
-      margin:auto;
-    }
-
-    .contact-links{
-      display:flex;
-      justify-content:center;
-      flex-wrap:wrap;
-      gap:14px;
-      margin-top:38px;
-    }
-
-    .contact-links a{
-      padding:14px 22px;
-      border:1px solid rgba(255,255,255,0.25);
-      border-radius:999px;
-    }
-
-    footer{
-      display:flex;
-      justify-content:space-between;
-      gap:20px;
-      padding:30px 7%;
-      background:var(--marron-fonce);
-      color:rgba(255,255,255,0.58);
-      font-size:13px;
-    }
-
-    @media(max-width:900px){
-      .menu a:not(.contact-button){
-        display:none;
+    @keyframes floatLogo {
+      0%,
+      100% {
+        transform: translateY(0);
       }
 
-      .hero{
-        grid-template-columns:1fr;
-        padding:120px 24px 70px;
-      }
-
-      .logo-zone{
-        margin-top:20px;
-      }
-
-      .cards,
-      .services-grid{
-        grid-template-columns:1fr;
-      }
-
-      section{
-        padding:85px 24px;
-      }
-
-      footer{
-        flex-direction:column;
-        text-align:center;
+      50% {
+        transform: translateY(-12px);
       }
     }
+
+    /* ==================================================
+       MANIFESTE
+    ================================================== */
+
+    .manifesto {
+      min-height: 85vh;
+
+      display: flex;
+      align-items: center;
+
+      background: var(--brown-dark);
+      color: var(--white);
+    }
+
+    .manifesto .section-label {
+      color: var(--gold-light);
+    }
+
+    .manifesto-content {
+      max-width: 1180px;
+    }
+
+    .manifesto h2 {
+      font-family: var(--serif);
+      font-size: clamp(44px, 6.4vw, 90px);
+      font-weight: 400;
+      line-height: 1.02;
+      letter-spacing: -4px;
+    }
+
+    .manifesto h2 span {
+      color: var(--gold-light);
+      font-style: italic;
+    }
+
+    .manifesto p {
+      max-width: 760px;
+      margin-top: 35px;
+
+      color: rgba(255, 255, 255, 0.67);
+      font-size: 18px;
+      line-height: 1.8;
+    }
+
+    /* ==================================================
+       PRINCIPES
+    ================================================== */
+
+    .principles {
+      background: var(--cream-light);
+    }
+
+    .principles-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 23px;
+
+      margin-top: 64px;
+    }
+
+    .principle-card {
+      position: relative;
+      overflow: hidden;
+
+      min-height: 360px;
+      padding: 38px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      border: 1px solid var(--border);
+      border-radius: 28px;
+
+      background: var(--white);
+      box-shadow: 0 22px 60px rgba(48, 40, 32, 0.07);
+
+      transition:
+        transform 0.35s ease,
+        border-color 0.35s ease,
+        box-shadow 0.35s ease;
+    }
+
+    .principle-card:hover {
+      transform: translateY(-10px);
+      border-color: rgba(196, 165, 109, 0.55);
+      box-shadow: var(--shadow);
+    }
+
+    .principle-card::after {
+      content: "";
+
+      position: absolute;
+      right: -90px;
+      bottom: -90px;
+
+      width: 190px;
+      height: 190px;
+
+      border: 1px solid rgba(196, 165, 109, 0.15);
+      border-radius: 50%;
+    }
+
+    .principle-number {
+      color: var(--gold);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 2px;
+    }
+
+    .principle-card h3 {
+      position: relative;
+      z-index: 2;
+
+      font-family: var(--serif);
+      font-size: 32px;
+      font-weight: 400;
+      line-height: 1.1;
+
+      color: var(--brown-dark);
+    }
+
+    .principle-card p {
+      position: relative;
+      z-index: 2;
+
+      margin-top: 17px;
+
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.75;
+    }
+
+    /* ==================================================
+       PHRASE IMPACT
+    ================================================== */
+
+    .impact {
+      min-height: 72vh;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      text-align: center;
+
+      background:
+        linear-gradient(
+          rgba(68, 70, 56, 0.95),
+          rgba(68, 70, 56, 0.95)
+        ),
+        var(--khaki-dark);
+
+      color: var(--white);
+    }
+
+    .impact blockquote {
+      max-width: 1080px;
+
+      font-family: var(--serif);
+      font-size: clamp(40px, 6vw, 82px);
+      font-weight: 400;
+      line-height: 1.05;
+      letter-spacing: -3px;
+    }
+
+    .impact blockquote span {
+      color: var(--gold-light);
+      font-style: italic;
+    }
+
+    /* ==================================================
+       SERVICES
+    ================================================== */
+
+    .services {
+      background: var(--cream);
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 21px;
+
+      margin-top: 65px;
+    }
+
+    .service-card {
+      position: relative;
+      overflow: hidden;
+
+      min-height: 390px;
+      padding: 41px;
+
+      border: 1px solid var(--border);
+      border-radius: 28px;
+
+      background: var(--cream-light);
+
+      transition:
+        transform 0.35s ease,
+        background 0.35s ease,
+        color 0.35s ease;
+    }
+
+    .service-card:hover {
+      transform: translateY(-8px);
+      background: var(--khaki-dark);
+      color: var(--white);
+    }
+
+    .service-index {
+      color: var(--gold);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .service-card h3 {
+      max-width: 490px;
+      margin-top: 95px;
+
+      font-family: var(--serif);
+      font-size: 38px;
+      font-weight: 400;
+      line-height: 1.08;
+    }
+
+    .service-card p {
+      max-width: 600px;
+      margin-top: 19px;
+
+      color: var(--muted);
+      line-height: 1.75;
+
+      transition: color 0.35s ease;
+    }
+
+    .service-card:hover p {
+      color: rgba(255, 255, 255, 0.72);
+    }
+
+    /* ==================================================
+       MÉTHODE
+    ================================================== */
+
+    .method {
+      background: var(--white);
+    }
+
+    .method-list {
+      margin-top: 64px;
+      border-top: 1px solid var(--border);
+    }
+
+    .method-item {
+      display: grid;
+      grid-template-columns: 90px 1fr 1.2fr;
+      align-items: start;
+      gap: 30px;
+
+      padding: 35px 0;
+
+      border-bottom: 1px solid var(--border);
+
+      transition:
+        padding-left 0.3s ease,
+        background 0.3s ease;
+    }
+
+    .method-item:hover {
+      padding-left: 17px;
+      background: rgba(244, 239, 229, 0.55);
+    }
+
+    .method-item strong {
+      color: var(--gold);
+      font-size: 13px;
+    }
+
+    .method-item h3 {
+      font-family: var(--serif);
+      font-size: 27px;
+      font-weight: 400;
+
+      color: var(--brown-dark);
+    }
+
+    .method-item p {
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    /* ==================================================
+       PORTFOLIO
+    ================================================== */
+
+    .portfolio {
+      background: var(--cream-light);
+    }
+
+    .project-card {
+      position: relative;
+      overflow: hidden;
+
+      min-height: 620px;
+      margin-top: 65px;
+      padding: 52px;
+
+      display: flex;
+      align-items: flex-end;
+
+      border-radius: 34px;
+
+      background:
+        radial-gradient(
+          circle at 80% 22%,
+          rgba(196, 165, 109, 0.25),
+          transparent 32%
+        ),
+        linear-gradient(
+          135deg,
+          #29231e,
+          #50513e
+        );
+
+      color: var(--white);
+      box-shadow: var(--shadow);
+
+      transition: transform 0.4s ease;
+    }
+
+    .project-card:hover {
+      transform: scale(0.992);
+    }
+
+    .project-card::before {
+      content: "OOKAH";
+
+      position: absolute;
+      top: 36px;
+      right: 38px;
+
+      color: rgba(255, 255, 255, 0.055);
+      font-family: var(--serif);
+      font-size: clamp(80px, 14vw, 210px);
+      line-height: 1;
+    }
+
+    .project-content {
+      position: relative;
+      z-index: 2;
+
+      max-width: 780px;
+    }
+
+    .project-tag {
+      color: var(--gold-light);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .project-card h3 {
+      margin-top: 18px;
+
+      font-family: var(--serif);
+      font-size: clamp(55px, 7vw, 96px);
+      font-weight: 400;
+      line-height: 0.95;
+    }
+
+    .project-card p {
+      max-width: 700px;
+      margin-top: 24px;
+
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 17px;
+      line-height: 1.8;
+    }
+
+    .project-card .button {
+      margin-top: 30px;
+      background: var(--cream-light);
+      color: var(--brown-dark);
+    }
+
+    /* ==================================================
+       CONTACT
+    ================================================== */
+
+    .contact {
+      min-height: 78vh;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      text-align: center;
+
+      background: var(--brown);
+      color: var(--white);
+    }
+
+    .contact .section-label {
+      color: var(--gold-light);
+    }
+
+    .contact .section-label::before {
+      display: none;
+    }
+
+    .contact h2 {
+      max-width: 1040px;
+
+      font-family: var(--serif);
+      font-size: clamp(43px, 6vw, 84px);
+      font-weight: 400;
+      line-height: 1.02;
+      letter-spacing: -4px;
+    }
+
+    .contact h2 span {
+      color: var(--gold-light);
+      font-style: italic;
+    }
+
+    .contact-copy {
+      max-width: 710px;
+      margin-top: 28px;
+
+      color: rgba(255, 255, 255, 0.68);
+      font-size: 17px;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 13px;
+
+      margin-top: 42px;
+    }
+
+    .contact-link {
+      padding: 14px 23px;
+
+      border: 1px solid rgba(255, 255, 255, 0.23);
+      border-radius: 999px;
+
+      transition:
+        background 0.3s ease,
+        color 0.3s ease,
+        transform 0.3s ease;
+    }
+
+    .contact-link:hover {
+      background: var(--cream-light);
+      color: var(--brown-dark);
+      transform: translateY(-3px);
+    }
+
+    /* ==================================================
+       FOOTER
+    ================================================== */
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+
+      padding: 32px 7%;
+
+      background: var(--brown-dark);
+      color: rgba(255, 255, 255, 0.53);
+
+      font-size: 12px;
+    }
+
+    /* ==================================================
+       BOUTON RETOUR EN HAUT
+    ================================================== */
+
+    .back-to-top {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      z-index: 900;
+
+      width: 48px;
+      height: 48px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 50%;
+
+      background: var(--brown-dark);
+      color: var(--white);
+
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(15px);
+
+      cursor: pointer;
+
+      transition: 0.3s ease;
+    }
+
+    .back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    /* ==================================================
+       ANIMATIONS AU SCROLL
+    ================================================== */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(38px);
+
+      transition:
+        opacity 0.8s ease,
+        transform 0.8s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .delay-1 {
+      transition-delay: 0.12s;
+    }
+
+    .delay-2 {
+      transition-delay: 0.24s;
+    }
+
+    /* ==================================================
+       VERSION TÉLÉPHONE
+    ================================================== */
+
+    @media (max-width: 980px) {
+
+      .navbar {
+        height: 72px;
+        padding: 0 21px;
+      }
+
+      .brand img {
+        width: 47px;
+        height: 47px;
+      }
+
+      .brand-name {
+        display: none;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+
+      .nav-links {
+        position: absolute;
+        top: 72px;
+        left: 20px;
+        right: 20px;
+
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+
+        padding: 18px;
+
+        border: 1px solid var(--border);
+        border-radius: 20px;
+
+        background: var(--cream-light);
+        box-shadow: var(--shadow);
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .nav-links a {
+        padding: 14px;
+      }
+
+      .nav-cta {
+        margin-top: 7px;
+        text-align: center;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 65px;
+
+        padding:
+          130px
+          24px
+          85px;
+      }
+
+      .hero h1 {
+        letter-spacing: -3px;
+      }
+
+      .hero-visual {
+        min-height: auto;
+      }
+
+      .logo-orbit {
+        width: min(88vw, 500px);
+      }
+
+      .hero-card {
+        right: 0;
+        bottom: 25px;
+      }
+
+      section {
+        padding: 90px 24px;
+      }
+
+      .principles-grid,
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .method-item {
+        grid-template-columns: 60px 1fr;
+      }
+
+      .method-item p {
+        grid-column: 2;
+      }
+
+      .project-card {
+        min-height: 520px;
+        padding: 32px;
+      }
+
+      footer {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 580px) {
+
+      .intro-logo {
+        width: 125px;
+        height: 125px;
+      }
+
+      .hero h1,
+      .section-title,
+      .manifesto h2,
+      .contact h2 {
+        letter-spacing: -2px;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .button {
+        width: 100%;
+      }
+
+      .hero-card {
+        position: static;
+        width: 100%;
+        margin-top: 24px;
+      }
+
+      .hero-visual {
+        flex-direction: column;
+      }
+
+      .logo-orbit {
+        width: 100%;
+      }
+
+      .principle-card,
+      .service-card {
+        min-height: auto;
+      }
+
+      .service-card h3 {
+        margin-top: 55px;
+      }
+
+      .contact-links {
+        width: 100%;
+        flex-direction: column;
+      }
+
+      .contact-link {
+        width: 100%;
+      }
+    }
+
+    /* Réduction des animations pour les utilisateurs concernés */
+
+    @media (prefers-reduced-motion: reduce) {
+
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
   </style>
+
 </head>
 
-<body>
+<body class="loading">
 
-  <nav>
-    <a href="#accueil" class="brand">
-      <img src="logo-em.png" alt="Logo EM Marketing">
-      <span>EM MARKETING</span>
+  <!-- ÉCRAN D’OUVERTURE -->
+
+  <div class="intro" id="intro">
+
+    <div class="intro-content">
+
+      <img
+        class="intro-logo"
+        src="logo-em.png"
+        alt="Logo EM Marketing"
+      >
+
+      <h1 class="intro-title">
+        EM Marketing
+      </h1>
+
+      <div class="intro-line"></div>
+
+      <p class="intro-caption">
+        Psychologie · Stratégie · Création
+      </p>
+
+    </div>
+
+  </div>
+
+  <!-- NAVIGATION -->
+
+  <nav class="navbar" id="navbar">
+
+    <a class="brand" href="#accueil">
+
+      <img
+        src="logo-em.png"
+        alt="Logo EM Marketing"
+      >
+
+      <span class="brand-name">
+        EM MARKETING
+      </span>
+
     </a>
 
-    <div class="menu">
+    <button
+      class="menu-toggle"
+      id="menuToggle"
+      aria-label="Ouvrir le menu"
+      aria-expanded="false"
+    >
+      ☰
+    </button>
+
+    <div class="nav-links" id="navLinks">
+
       <a href="#vision">Vision</a>
+
       <a href="#services">Services</a>
-      <a href="#contact" class="contact-button">Me contacter</a>
+
+      <a href="#methode">Méthode</a>
+
+      <a href="#portfolio">Portfolio</a>
+
+      <a class="nav-cta" href="#contact">
+        Parler de votre projet
+      </a>
+
     </div>
+
   </nav>
 
   <main>
 
+    <!-- ACCUEIL -->
+
     <section id="accueil" class="hero">
 
-      <div>
-        <p class="eyebrow">Psychologie · Stratégie · Création</p>
+      <div class="hero-content reveal">
+
+        <p class="hero-tag">
+          Psychologie · Stratégie · Création
+        </p>
 
         <h1>
           Chaque détail influence une
           <span>émotion.</span>
         </h1>
 
-        <p class="hero-text">
+        <p class="hero-copy">
           Chaque couleur, chaque mouvement, chaque regard et chaque silence
-          influence la perception de votre marque.
+          influence la manière dont votre marque est perçue.
           <strong>
             EM Marketing transforme ces émotions en décisions,
             et ces décisions en clients.
           </strong>
         </p>
 
-        <div class="buttons">
-          <a class="button button-primary" href="#services">
-            Découvrir mon approche
+        <div class="hero-actions">
+
+          <a
+            class="button button-primary"
+            href="#services"
+          >
+            Découvrir notre approche
+            <span>↓</span>
           </a>
 
-          <a class="button button-secondary" href="#contact">
-            Parler de votre projet
+          <a
+            class="button button-secondary"
+            href="#portfolio"
+          >
+            Voir notre travail
           </a>
+
         </div>
 
-        <p class="signature">
-          Rien n’est laissé au hasard. Parce que chaque détail compte.
+        <p class="hero-signature">
+          Rien n’est laissé au hasard.
+          Parce que chaque détail compte.
         </p>
+
       </div>
 
-      <div class="logo-zone">
-        <div class="logo-circle">
-          <img src="logo-em.png" alt="EM Marketing">
+      <div class="hero-visual reveal delay-1">
+
+        <div class="logo-orbit">
+
+          <span class="orbit-dot"></span>
+
+          <img
+            src="logo-em.png"
+            alt="EM Marketing"
+          >
+
         </div>
+
+        <div class="hero-card">
+
+          <strong>
+            Une création intentionnelle.
+          </strong>
+
+          <p>
+            Chaque choix visuel répond à une émotion,
+            une cible et un objectif précis.
+          </p>
+
+        </div>
+
       </div>
 
     </section>
 
-    <section id="vision" class="dark">
+    <!-- VISION -->
 
-      <p class="section-label">La psychologie avant l’esthétique</p>
+    <section id="vision" class="manifesto">
 
-      <h2 class="big-title">
-        Avant d’acheter avec leur portefeuille,
-        vos clients achètent avec leurs
-        <span>émotions.</span>
-      </h2>
+      <div class="manifesto-content reveal">
 
-      <p class="section-text">
-        Une belle image attire l’attention.
-        Mais c’est la sensation qu’elle provoque,
-        le message qu’elle transmet et la confiance qu’elle construit
-        qui donnent réellement envie d’agir.
-      </p>
+        <p class="section-label">
+          La psychologie avant l’esthétique
+        </p>
+
+        <h2>
+          Avant d’acheter avec leur portefeuille,
+          vos clients achètent avec leurs
+          <span>émotions.</span>
+        </h2>
+
+        <p>
+          Une belle image attire l’attention.
+          Mais ce sont la sensation qu’elle provoque,
+          le message qu’elle transmet et la confiance qu’elle construit
+          qui donnent réellement envie d’agir.
+        </p>
+
+      </div>
 
     </section>
 
-    <section>
+    <!-- PRINCIPES -->
 
-      <p class="section-label">Une création intentionnelle</p>
+    <section class="principles">
 
-      <h2 class="big-title">
-        L’esthétique attire. La stratégie transforme l’attention en action.
-      </h2>
+      <div class="reveal">
 
-      <div class="cards">
+        <p class="section-label">
+          Une création qui a du sens
+        </p>
 
-        <article class="card">
-          <span>01 · COMPRENDRE</span>
-          <h3>Comprendre avant de créer.</h3>
-          <p>
-            Votre marque, votre cible, ses besoins,
-            ses freins et les émotions qui influencent ses décisions.
-          </p>
+        <h2 class="section-title">
+          L’esthétique attire.
+          La stratégie transforme l’attention en action.
+        </h2>
+
+        <p class="section-description">
+          Nous ne créons pas du contenu pour simplement remplir
+          un calendrier. Chaque création est pensée pour une cible,
+          un objectif et une réaction précise.
+        </p>
+
+      </div>
+
+      <div class="principles-grid">
+
+        <article class="principle-card reveal">
+
+          <span class="principle-number">
+            01 · COMPRENDRE
+          </span>
+
+          <div>
+
+            <h3>
+              Comprendre avant de créer.
+            </h3>
+
+            <p>
+              Votre marque, votre cible, ses besoins,
+              ses désirs, ses freins et les émotions
+              qui influencent ses décisions.
+            </p>
+
+          </div>
+
         </article>
 
-        <article class="card">
-          <span>02 · RESSENTIR</span>
-          <h3>Créer une réaction humaine.</h3>
-          <p>
-            Curiosité, confiance, désir, identification ou anticipation :
-            chaque émotion possède une fonction.
-          </p>
+        <article class="principle-card reveal delay-1">
+
+          <span class="principle-number">
+            02 · RESSENTIR
+          </span>
+
+          <div>
+
+            <h3>
+              Créer une réaction humaine.
+            </h3>
+
+            <p>
+              Curiosité, confiance, désir, identification
+              ou anticipation : chaque émotion possède
+              une fonction stratégique.
+            </p>
+
+          </div>
+
         </article>
 
-        <article class="card">
-          <span>03 · CONVERTIR</span>
-          <h3>Transformer l’émotion en décision.</h3>
-          <p>
-            Une création efficace ne cherche pas seulement à être vue.
-            Elle donne envie d’aller plus loin.
-          </p>
+        <article class="principle-card reveal delay-2">
+
+          <span class="principle-number">
+            03 · CONVERTIR
+          </span>
+
+          <div>
+
+            <h3>
+              Transformer l’émotion en décision.
+            </h3>
+
+            <p>
+              Une création efficace ne cherche pas seulement
+              à être regardée. Elle donne naturellement envie
+              d’aller plus loin.
+            </p>
+
+          </div>
+
         </article>
 
       </div>
 
     </section>
+
+    <!-- PHRASE DE MARQUE -->
+
+    <section class="impact">
+
+      <blockquote class="reveal">
+        Les grandes marques ne vendent pas seulement
+        leurs produits. Elles créent une
+        <span>émotion que l’on n’oublie pas.</span>
+      </blockquote>
+
+    </section>
+
+    <!-- SERVICES -->
 
     <section id="services" class="services">
 
-      <p class="section-label">Mes expertises</p>
+      <div class="reveal">
 
-      <h2 class="big-title">
-        De la première réflexion à la campagne finale.
-      </h2>
+        <p class="section-label">
+          Nos expertises
+        </p>
+
+        <h2 class="section-title">
+          De la première réflexion à la campagne finale.
+        </h2>
+
+        <p class="section-description">
+          Chaque prestation est adaptée à votre identité,
+          votre cible, votre marché et vos objectifs commerciaux.
+        </p>
+
+      </div>
 
       <div class="services-grid">
 
-        <article class="service">
-          <span>01</span>
-          <h3>Storytelling de marque</h3>
+        <article class="service-card reveal">
+
+          <span class="service-index">01</span>
+
+          <h3>
+            Storytelling et stratégie de marque
+          </h3>
+
           <p>
-            Big Idea, territoire émotionnel, manifeste,
-            positionnement et architecture du message.
+            Recherche de la Big Idea, territoire émotionnel,
+            positionnement, manifeste et architecture du message.
           </p>
+
         </article>
 
-        <article class="service">
-          <span>02</span>
-          <h3>Vidéos publicitaires</h3>
+        <article class="service-card reveal delay-1">
+
+          <span class="service-index">02</span>
+
+          <h3>
+            Vidéos et campagnes publicitaires
+          </h3>
+
           <p>
             Concept créatif, scénario, script, storyboard,
             direction artistique, tournage partenaire et montage.
           </p>
+
         </article>
 
-        <article class="service">
-          <span>03</span>
-          <h3>Création de contenu</h3>
+        <article class="service-card reveal">
+
+          <span class="service-index">03</span>
+
+          <h3>
+            Création de contenu
+          </h3>
+
           <p>
-            Reels, publications, stories et contenus adaptés
-            à votre identité et à vos objectifs.
+            Reels, publications, stories et contenus
+            adaptés à votre identité et à vos objectifs.
           </p>
+
         </article>
 
-        <article class="service">
-          <span>04</span>
-          <h3>Stratégie digitale</h3>
+        <article class="service-card reveal delay-1">
+
+          <span class="service-index">04</span>
+
+          <h3>
+            Stratégie digitale et Meta Ads
+          </h3>
+
           <p>
-            Analyse de la cible, campagnes Meta,
-            optimisation et suivi des performances.
+            Analyse de la cible, conception des campagnes,
+            optimisation des contenus et suivi des performances.
           </p>
+
         </article>
 
       </div>
 
     </section>
 
+    <!-- MÉTHODE -->
+
+    <section id="methode" class="method">
+
+      <div class="reveal">
+
+        <p class="section-label">
+          La méthode EM
+        </p>
+
+        <h2 class="section-title">
+          Chaque détail possède une intention.
+        </h2>
+
+        <p class="section-description">
+          Une campagne forte ne commence pas par une caméra.
+          Elle commence par une compréhension précise
+          du comportement humain.
+        </p>
+
+      </div>
+
+      <div class="method-list">
+
+        <div class="method-item reveal">
+
+          <strong>01</strong>
+
+          <h3>Écouter</h3>
+
+          <p>
+            Comprendre votre histoire, votre ambition,
+            votre cible et les enjeux de votre projet.
+          </p>
+
+        </div>
+
+        <div class="method-item reveal">
+
+          <strong>02</strong>
+
+          <h3>Analyser</h3>
+
+          <p>
+            Identifier les émotions, les biais,
+            les objections et les déclencheurs de décision.
+          </p>
+
+        </div>
+
+        <div class="method-item reveal">
+
+          <strong>03</strong>
+
+          <h3>Concevoir</h3>
+
+          <p>
+            Construire le concept, le storytelling,
+            le rythme et la direction artistique.
+          </p>
+
+        </div>
+
+        <div class="method-item reveal">
+
+          <strong>04</strong>
+
+          <h3>Créer</h3>
+
+          <p>
+            Produire les contenus, puis les adapter
+            aux plateformes et aux objectifs définis.
+          </p>
+
+        </div>
+
+        <div class="method-item reveal">
+
+          <strong>05</strong>
+
+          <h3>Optimiser</h3>
+
+          <p>
+            Observer les réactions, analyser les résultats
+            et améliorer progressivement la stratégie.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- PORTFOLIO -->
+
+    <section id="portfolio" class="portfolio">
+
+      <div class="reveal">
+
+        <p class="section-label">
+          Étude de cas
+        </p>
+
+        <h2 class="section-title">
+          Des idées pensées comme de véritables territoires de marque.
+        </h2>
+
+        <p class="section-description">
+          Notre portfolio évoluera progressivement avec chaque projet.
+          OOKAH constitue la première étude de cas stratégique
+          développée par EM Marketing.
+        </p>
+
+      </div>
+
+      <article class="project-card reveal">
+
+        <div class="project-content">
+
+          <p class="project-tag">
+            Stratégie · Storytelling · Campagne de marque
+          </p>
+
+          <h3>OOKAH</h3>
+
+          <p>
+            Recherche de la conviction de marque,
+            analyse des territoires émotionnels,
+            développement du manifeste et conception
+            d’une campagne centrée sur l’hospitalité,
+            l’authenticité et les moments partagés.
+          </p>
+
+          <a
+            class="button"
+            href="#contact"
+          >
+            Étude de cas prochainement
+          </a>
+
+        </div>
+
+      </article>
+
+    </section>
+
+    <!-- CONTACT -->
+
     <section id="contact" class="contact">
 
-      <p class="section-label">Parlons de votre projet</p>
+      <p class="section-label reveal">
+        Construisons votre prochaine campagne
+      </p>
 
-      <h2 class="big-title">
+      <h2 class="reveal">
         Votre marque mérite plus qu’un joli contenu.
-        Elle mérite une <span>intention.</span>
+        Elle mérite une
+        <span>intention.</span>
       </h2>
 
-      <div class="contact-links">
+      <p class="contact-copy reveal">
+        Présentez-nous votre projet, vos objectifs et les personnes
+        que vous souhaitez toucher. Nous construirons une direction
+        créative adaptée à votre univers.
+      </p>
 
-        <a href="mailto:armandemma41@gmail.com">
+      <div class="contact-links reveal">
+
+        <a
+          class="contact-link"
+          href="mailto:armandemma41@gmail.com"
+        >
           armandemma41@gmail.com
         </a>
 
-        <a href="tel:+33745055513">
+        <a
+          class="contact-link"
+          href="tel:+33745055513"
+        >
           07 45 05 55 13
         </a>
 
         <a
+          class="contact-link"
           href="https://www.instagram.com/emmarketing13/"
           target="_blank"
           rel="noopener noreferrer"
@@ -575,10 +1947,161 @@
 
   </main>
 
+  <!-- PIED DE PAGE -->
+
   <footer>
-    <p>© 2026 EM Marketing</p>
-    <p>Psychologie · Storytelling · Création · Marketing digital</p>
+
+    <p>
+      © 2026 EM Marketing
+    </p>
+
+    <p>
+      Psychologie · Storytelling · Création · Marketing digital
+    </p>
+
   </footer>
 
+  <!-- RETOUR EN HAUT -->
+
+  <button
+    class="back-to-top"
+    id="backToTop"
+    aria-label="Retourner en haut"
+  >
+    ↑
+  </button>
+
+  <script>
+
+    /* ÉCRAN D’OUVERTURE */
+
+    const intro = document.getElementById("intro");
+
+    window.addEventListener("load", () => {
+
+      setTimeout(() => {
+
+        intro.classList.add("hidden");
+
+        document.body.classList.remove("loading");
+
+      }, 1700);
+
+    });
+
+
+    /* NAVIGATION AU SCROLL */
+
+    const navbar = document.getElementById("navbar");
+
+    const backToTop = document.getElementById("backToTop");
+
+    window.addEventListener("scroll", () => {
+
+      if (window.scrollY > 60) {
+
+        navbar.classList.add("scrolled");
+
+        backToTop.classList.add("visible");
+
+      } else {
+
+        navbar.classList.remove("scrolled");
+
+        backToTop.classList.remove("visible");
+
+      }
+
+    });
+
+
+    /* MENU TÉLÉPHONE */
+
+    const menuToggle = document.getElementById("menuToggle");
+
+    const navLinks = document.getElementById("navLinks");
+
+    menuToggle.addEventListener("click", () => {
+
+      const isOpen = navLinks.classList.toggle("open");
+
+      menuToggle.setAttribute("aria-expanded", isOpen);
+
+      menuToggle.textContent = isOpen ? "×" : "☰";
+
+    });
+
+
+    /* FERMETURE DU MENU APRÈS UN CLIC */
+
+    document
+      .querySelectorAll(".nav-links a")
+      .forEach((link) => {
+
+        link.addEventListener("click", () => {
+
+          navLinks.classList.remove("open");
+
+          menuToggle.setAttribute("aria-expanded", "false");
+
+          menuToggle.textContent = "☰";
+
+        });
+
+      });
+
+
+    /* APPARITION DES ÉLÉMENTS AU SCROLL */
+
+    const revealElements = document.querySelectorAll(".reveal");
+
+    const revealObserver = new IntersectionObserver(
+
+      (entries, observer) => {
+
+        entries.forEach((entry) => {
+
+          if (entry.isIntersecting) {
+
+            entry.target.classList.add("visible");
+
+            observer.unobserve(entry.target);
+
+          }
+
+        });
+
+      },
+
+      {
+        threshold: 0.13
+      }
+
+    );
+
+    revealElements.forEach((element) => {
+
+      revealObserver.observe(element);
+
+    });
+
+
+    /* BOUTON RETOUR EN HAUT */
+
+    backToTop.addEventListener("click", () => {
+
+      window.scrollTo({
+
+        top: 0,
+
+        behavior: "smooth"
+
+      });
+
+    });
+
+  </script>
+
 </body>
+
 </html>
